@@ -24,6 +24,9 @@ query_string = {"symbols": f"{queryInput}"}
 
 querytest = {'symbols': 'AAPL'}
 
+# responder builds request with user input as query params
+# it takes an api key registered for yahoo finance api and saved
+# in the config.py file
 responder = requests.request(
     "Get", yahoo_curl, headers=con.headers, params=query_string).json()
 
