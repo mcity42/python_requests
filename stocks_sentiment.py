@@ -24,8 +24,8 @@ query_string = {"symbols": f"{queryInput}"}
 
 querytest = {'symbols': 'AAPL'}
 
-
 responder = requests.request(
     "Get", yahoo_curl, headers=con.headers, params=query_string).json()
 
+# pretty print
 pprint.pprint(responder)
