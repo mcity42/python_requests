@@ -1,7 +1,7 @@
 import requests
 import pprint
 import config as con
-from tkinter import *
+
 
 wallst_curl = 'https://tradestie.com/api/v1/apps/reddit'
 
@@ -35,28 +35,4 @@ responder = requests.request(
 # pretty print
 pprint.pprint(responder)
 
-
-# class Window(Frame):
-#     def __init__(self, master=None):
-#         Frame.__init__(self, master)
-#         self.master = master
-
-#         self.pack(fill=BOTH, expand=1)
-
-#         exitButton = Button(self, text="Exit", command=self.clickExitButton)
-
-#         exitButton.place(x=0, y=0)
-
-#     def clickExitButton(self):
-#         exit()
-
-
-# root = Tk()
-# app = Window(root)
-# root.wm_title("Stocks")
-# root.geometry('320x200')
-# root.mainloop()
-
-# stats = Text(root)
-# stats.insert(INSERT, resp)
-# stats.pack()
+print("------------------------------------------")
