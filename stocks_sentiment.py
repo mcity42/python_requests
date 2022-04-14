@@ -26,8 +26,7 @@ print("------------------------------------------")
 yahoo_curl = 'https://yfapi.net/v6/finance/quote'
 queryInput = ''
 
-# use user input to analyze the ticker/stock using Yahoo Finance API
-
+# use user input to analyze the ticker/stock further using Yahoo Finance API
 
 def searchByInput():
     print("Choose ticker(s) above to analyze further")
