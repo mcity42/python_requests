@@ -68,8 +68,8 @@ symbol = pprint.pformat(responder['quoteResponse']['result'][0]['symbol'])
 print("Name: ", end='')
 name = pprint.pformat(responder['quoteResponse']['result'][0]['displayName'])
 print("52 WK Range: ", end='')
-yearrange = pprint.pformat(responder['quoteResponse']
-                           ['result'][0]['fiftyTwoWeekRange'])
+yearrange = pprint.pformat(
+    responder['quoteResponse']['result'][0]['fiftyTwoWeekRange'])
 print("Market Cap: ", end='')
 cap = pprint.pformat(responder['quoteResponse']['result'][0]['marketCap'])
 print("Currency: ", end='')
@@ -91,7 +91,7 @@ insight_string = {"symbol": f"{queryInput}"}
 insight = requests.request(
     "Get", insights_url, headers=con.headers, params=insight_string).json()
 
-# print("Isnights:")
+# print("Isnights:") --> change back to pprint
 print('Longterm Trajectory: ', end='')
 longterm = pprint.pformat(insight['finance']['result']
                           ['instrumentInfo']['technicalEvents']['longTerm'])
@@ -143,10 +143,18 @@ def login():
     else:
         return redirect("/")
 
+# check if this will print the form-entered ticker (not bash entered one)
+
 
 @app.route("/correct")
 def success():
-    return f"Symbol: {symbol}\nName: {name}\n52 Week Range: {yearrange}\nMarket Cap: {cap}\nCurrency: {currencytype}\nAsk: {ask}\nBid: {bid}\Source: {source}"
+    result2 = request.form.get("nm")
+    query2 = {"symbols": f"{result2}"}
+    res = requests.request(
+        "Get", yahoo_curl, headers=con.headers, params=query2).json()
+    symbol = pprint.pformat(res['quoteResponse']['result'][0]['symbol'])
+    return f"Symbol: {symbol}"
+    # \nName: {name}\n52 Week Range: {yearrange}\nMarket Cap: {cap}\nCurrency: {currencytype}\nAsk: {ask}\nBid: {bid}\Source: {source}"
 
 
 if __name__ == "__main__":
