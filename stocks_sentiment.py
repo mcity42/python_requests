@@ -24,12 +24,13 @@ for ticker in resp:
 print("------------------------------------------")
 
 yahoo_curl = 'https://yfapi.net/v6/finance/quote'
-queryInput = ''
+
 
 # use user input to analyze the ticker/stock using Yahoo Finance API
 
 
 def searchByInput():
+    queryInput = ''
     print("Choose ticker(s) above to analyze further")
     while queryInput == '':
         queryInput = input("Enter 1 ticker from the above list: \n").upper()
@@ -105,7 +106,7 @@ def searchByInput():
 
 
 # prompt user to choose another ticker
-queryInput == ''
+
 searchByInput()
 
 
