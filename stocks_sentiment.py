@@ -1,8 +1,16 @@
+#!/usr/bin/python3
+
+from locale import currency
+from flask import render_template
+from flask import request
+from flask import redirect
+from flask import Flask
 from random import randint
 import requests
 import pprint
 import config as con
 import random
+
 
 #import pandas as pd
 
@@ -56,21 +64,24 @@ responder = requests.request(
 # pprint.pprint(responder)
 # pretty print
 print("Symbol: ", end='')
-pprint.pprint(responder['quoteResponse']['result'][0]['symbol'])
+symbol = pprint.pformat(responder['quoteResponse']['result'][0]['symbol'])
 print("Name: ", end='')
-pprint.pprint(responder['quoteResponse']['result'][0]['displayName'])
+name = pprint.pformat(responder['quoteResponse']['result'][0]['displayName'])
 print("52 WK Range: ", end='')
-pprint.pprint(responder['quoteResponse']['result'][0]['fiftyTwoWeekRange'])
+yearrange = pprint.pformat(responder['quoteResponse']
+                           ['result'][0]['fiftyTwoWeekRange'])
 print("Market Cap: ", end='')
-pprint.pprint(responder['quoteResponse']['result'][0]['marketCap'])
+cap = pprint.pformat(responder['quoteResponse']['result'][0]['marketCap'])
 print("Currency: ", end='')
-pprint.pprint(responder['quoteResponse']['result'][0]['currency'])
+currencytype = pprint.pformat(
+    responder['quoteResponse']['result'][0]['currency'])
 print("Ask: ", end='')
-pprint.pprint(responder['quoteResponse']['result'][0]['ask'])
+ask = pprint.pformat(responder['quoteResponse']['result'][0]['ask'])
 print("Bid: ", end='')
-pprint.pprint(responder['quoteResponse']['result'][0]['bid'])
+bid = pprint.pformat(responder['quoteResponse']['result'][0]['bid'])
 print("Source: ", end='')
-pprint.pprint(responder['quoteResponse']['result'][0]['quoteSourceName'])
+source = pprint.pformat(
+    responder['quoteResponse']['result'][0]['quoteSourceName'])
 
 
 print('\n')
@@ -82,17 +93,17 @@ insight = requests.request(
 
 # print("Isnights:")
 print('Longterm Trajectory: ', end='')
-pprint.pprint(insight['finance']['result']
-              ['instrumentInfo']['technicalEvents']['longTerm'])
+longterm = pprint.pformat(insight['finance']['result']
+                          ['instrumentInfo']['technicalEvents']['longTerm'])
 print('Midterm Trajectory: ', end='')
-pprint.pprint(insight['finance']['result']
-              ['instrumentInfo']['technicalEvents']['midTerm'])
+midterm = pprint.pformat(insight['finance']['result']
+                         ['instrumentInfo']['technicalEvents']['midTerm'])
 print('Shortterm Trajectory: ', end='')
-pprint.pprint(insight['finance']['result']
-              ['instrumentInfo']['technicalEvents']['shortTerm'])
-print('Analsyst: ', end='')
-pprint.pprint(insight['finance']['result']
-              ['instrumentInfo']['technicalEvents']['provider'])
+shorterm = pprint.pformat(insight['finance']['result']
+                          ['instrumentInfo']['technicalEvents']['shortTerm'])
+print('Analyst: ', end='')
+analyst = pprint.pformat(insight['finance']['result']
+                         ['instrumentInfo']['technicalEvents']['provider'])
 
 
 print('\n')
@@ -109,3 +120,34 @@ print("Date: ", end='')
 pprint.pprint(insight['finance']['result']['reports'][0]['publishedOn'])
 
 print("------------------------------------------")
+
+# -------------------------------------------------------
+
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def start():
+    return render_template("postmaker.html")
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    if request.form.get("nm"):
+        result = request.form.get("nm")
+        if 1 > 0:
+            return redirect("/correct")
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
+
+@app.route("/correct")
+def success():
+    return f"Symbol: {symbol}\nName: {name}\n52 Week Range: {yearrange}\nMarket Cap: {cap}\nCurrency: {currencytype}\nAsk: {ask}\nBid: {bid}\Source: {source}"
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=2224)  # runs the application
