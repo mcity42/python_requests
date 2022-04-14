@@ -1,2 +1,2 @@
 # python_requests
-Python API request and response handling
+This python application fetches the Wallstreet Bets API to retrieve and display 50 prominent stock tickers and their current sentiment, and uses Yahoo Finance API to get real-time fincancial data for a ticker entered by the user. 
