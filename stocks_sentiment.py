@@ -119,7 +119,6 @@ searchByInput()
 # @app.route("/")
 # def start():
 #     return render_template("postmaker.html")
-#     # return f"Symbol: {symbol}\nName: {name}\n52 Week Range: {yearrange}\nMarket Cap: {cap}\nCurrency: {currencytype}\nAsk: {ask}\nBid: {bid}\nSource: {source}"
 
 
 # @app.route("/login", methods=["POST"])
@@ -138,8 +137,7 @@ searchByInput()
 # def success(ticker):
 #     url = 'https://yfapi.net/v6/finance/quote'
 #     query2 = {"symbols": f"{ticker}"}
-#     res = requests.request(
-#         "Get", url, headers=con.headers, params=query2).json()
+#     res = requests.request("Get", url, headers=con.headers, params=query2).json()
 #     query_symbol = pprint.pprint(res['quoteResponse']['result'])
 #     return f"Symbol: {query_symbol}\nName: {name}\n52 Week Range: {yearrange}\nMarket Cap: {cap}\nCurrency: {currencytype}\nAsk: {ask}\nBid: {bid}\nSource: {source}"
 
