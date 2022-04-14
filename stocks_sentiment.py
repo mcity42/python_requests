@@ -15,13 +15,11 @@ wallst_curl = 'https://tradestie.com/api/v1/apps/reddit'
 # dictionary of the json response
 resp = requests.get(wallst_curl).json()
 
-#ticker_list = []
 
 # display the sentiment for 50 prominent tickers
 i = 1
 for ticker in resp:
     pprint.pprint(f"{i}. " + ticker['ticker'] + ": " + ticker['sentiment'])
-    #ticker_list = ticker_list.append(ticker['ticker'] + ": " + ticker['sentiment'])
     i += 1
 
 
@@ -77,7 +75,7 @@ insight_string = {"symbol": f"{queryInput}"}
 insight = requests.request(
     "Get", insights_url, headers=con.headers, params=insight_string).json()
 
-# print("Isnights:") --> change back to pprint
+# display the Insights
 print('Longterm Trajectory: ', end='')
 longterm = pprint.pprint(insight['finance']['result']
                          ['instrumentInfo']['technicalEvents']['longTerm'])
@@ -95,10 +93,10 @@ analyst = pprint.pprint(insight['finance']['result']
 print('\n')
 
 listofins = insight['finance']['result']['reports']
-# save also caTCH INDEX
+# store a random index of list of reports
 rand_insight = listofins.index(random.choice(listofins))
 
-# get 1st summary from reports list --- change to choice() to get rand index/quote
+# get 1 random summary from reports list
 pprint.pprint(insight['finance']['result']['reports'][rand_insight]['summary'])
 
 # date of summary
@@ -106,6 +104,8 @@ print("Date: ", end='')
 pprint.pprint(insight['finance']['result']['reports'][0]['publishedOn'])
 
 print("-------------------------------------------------")
+# prompt user to choose another ticker
+queryInput == ''
 searchByInput()
 
 
