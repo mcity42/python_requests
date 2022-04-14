@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 
 from locale import currency
-from flask import render_template
+from flask import render_template, url_for
 from flask import request
 from flask import redirect
 from flask import Flask
+from flask import session
 from random import randint
 import requests
 import pprint
@@ -64,23 +65,23 @@ responder = requests.request(
 # pprint.pprint(responder)
 # pretty print
 print("Symbol: ", end='')
-symbol = pprint.pformat(responder['quoteResponse']['result'][0]['symbol'])
+symbol = pprint.pprint(responder['quoteResponse']['result'][0]['symbol'])
 print("Name: ", end='')
-name = pprint.pformat(responder['quoteResponse']['result'][0]['displayName'])
+name = pprint.pprint(responder['quoteResponse']['result'][0]['displayName'])
 print("52 WK Range: ", end='')
-yearrange = pprint.pformat(
+yearrange = pprint.pprint(
     responder['quoteResponse']['result'][0]['fiftyTwoWeekRange'])
 print("Market Cap: ", end='')
-cap = pprint.pformat(responder['quoteResponse']['result'][0]['marketCap'])
+cap = pprint.pprint(responder['quoteResponse']['result'][0]['marketCap'])
 print("Currency: ", end='')
-currencytype = pprint.pformat(
+currencytype = pprint.pprint(
     responder['quoteResponse']['result'][0]['currency'])
 print("Ask: ", end='')
-ask = pprint.pformat(responder['quoteResponse']['result'][0]['ask'])
+ask = pprint.pprint(responder['quoteResponse']['result'][0]['ask'])
 print("Bid: ", end='')
-bid = pprint.pformat(responder['quoteResponse']['result'][0]['bid'])
+bid = pprint.pprint(responder['quoteResponse']['result'][0]['bid'])
 print("Source: ", end='')
-source = pprint.pformat(
+source = pprint.pprint(
     responder['quoteResponse']['result'][0]['quoteSourceName'])
 
 
@@ -93,17 +94,17 @@ insight = requests.request(
 
 # print("Isnights:") --> change back to pprint
 print('Longterm Trajectory: ', end='')
-longterm = pprint.pformat(insight['finance']['result']
-                          ['instrumentInfo']['technicalEvents']['longTerm'])
+longterm = pprint.pprint(insight['finance']['result']
+                         ['instrumentInfo']['technicalEvents']['longTerm'])
 print('Midterm Trajectory: ', end='')
-midterm = pprint.pformat(insight['finance']['result']
-                         ['instrumentInfo']['technicalEvents']['midTerm'])
+midterm = pprint.pprint(insight['finance']['result']
+                        ['instrumentInfo']['technicalEvents']['midTerm'])
 print('Shortterm Trajectory: ', end='')
-shorterm = pprint.pformat(insight['finance']['result']
-                          ['instrumentInfo']['technicalEvents']['shortTerm'])
+shorterm = pprint.pprint(insight['finance']['result']
+                         ['instrumentInfo']['technicalEvents']['shortTerm'])
 print('Analyst: ', end='')
-analyst = pprint.pformat(insight['finance']['result']
-                         ['instrumentInfo']['technicalEvents']['provider'])
+analyst = pprint.pprint(insight['finance']['result']
+                        ['instrumentInfo']['technicalEvents']['provider'])
 
 
 print('\n')
@@ -122,7 +123,7 @@ pprint.pprint(insight['finance']['result']['reports'][0]['publishedOn'])
 print("------------------------------------------")
 
 # -------------------------------------------------------
-
+user_symbol = ''
 
 app = Flask(__name__)
 
@@ -135,26 +136,26 @@ def start():
 @app.route("/login", methods=["POST"])
 def login():
     if request.form.get("nm"):
-        result = request.form.get("nm")
-        if 1 > 0:
+        user_symbol = request.form.get("nm")
+        if user_symbol != '':
+            url = 'https://yfapi.net/v6/finance/quote'
+            query2 = {"symbols": f"{user_symbol}"}
+            res = requests.request(
+                "Get", url, headers=con.headers, params=query2).json()
+            session['res'] = res
+            session.modified = True
             return redirect("/correct")
         else:
             return redirect("/")
     else:
         return redirect("/")
 
-# check if this will print the form-entered ticker (not bash entered one)
-
 
 @app.route("/correct")
 def success():
-    result2 = request.form.get("nm")
-    query2 = {"symbols": f"{result2}"}
-    res = requests.request(
-        "Get", yahoo_curl, headers=con.headers, params=query2).json()
-    symbol = pprint.pformat(res['quoteResponse']['result'][0]['symbol'])
-    return f"Symbol: {symbol}"
-    # \nName: {name}\n52 Week Range: {yearrange}\nMarket Cap: {cap}\nCurrency: {currencytype}\nAsk: {ask}\nBid: {bid}\Source: {source}"
+    res = request.args['res']
+    query_symbol = pprint.pprint(res['quoteResponse']['result'])
+    return f"Symbol: {query_symbol}\nName: {name}\n52 Week Range: {yearrange}\nMarket Cap: {cap}\nCurrency: {currencytype}\nAsk: {ask}\nBid: {bid}\nSource: {source}"
 
 
 if __name__ == "__main__":
