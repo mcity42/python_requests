@@ -5,6 +5,7 @@ import pprint
 import config as con
 import random
 
+# Wall St Bets API
 wallst_curl = 'https://tradestie.com/api/v1/apps/reddit'
 
 
@@ -20,13 +21,14 @@ def getList():
 
 
 getList()
+
 print("------------------------------------------")
 
+# Yahoo Finance API
 yahoo_curl = 'https://yfapi.net/v6/finance/quote'
 
 
 # use user input to analyze the ticker/stock further using Yahoo Finance API
-
 def searchByInput():
     queryInput = ''
     print("Choose ticker(s) above to analyze further")
