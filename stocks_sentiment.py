@@ -103,8 +103,8 @@ def searchByInput():
     pprint.pprint(insight['finance']['result']['reports'][0]['publishedOn'])
 
     print("-------------------------------------------------")
+    searchByInput()
 
 
 # prompt user to choose another ticker
-
 searchByInput()
