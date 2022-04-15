@@ -94,6 +94,7 @@ def searchByInput():
     rand_insight = listofins.index(random.choice(listofins))
 
     # get 1 random summary from reports list
+    print("Review:")
     pprint.pprint(insight['finance']['result']
                   ['reports'][rand_insight]['summary'])
 
@@ -107,40 +108,3 @@ def searchByInput():
 # prompt user to choose another ticker
 
 searchByInput()
-
-
-# Future additions: add an endpoint and allow search/request from form input submit
-# -------------------------------------------------------
-# user_symbol = ''
-
-# app = Flask(__name__)
-
-
-# @app.route("/")
-# def start():
-#     return render_template("postmaker.html")
-
-
-# @app.route("/login", methods=["POST"])
-# def login():
-#     if request.form.get("nm"):
-#         user_symbol = request.form.get("nm")
-#         if user_symbol != '':
-#             return redirect(url_for("success", ticker=user_symbol))
-#         else:
-#             return redirect("/")
-#     else:
-#         return redirect("/")
-
-
-# @app.route("/success/<ticker>", methods=["GET", "POST"])
-# def success(ticker):
-#     url = 'https://yfapi.net/v6/finance/quote'
-#     query2 = {"symbols": f"{ticker}"}
-#     res = requests.request("Get", url, headers=con.headers, params=query2).json()
-#     query_symbol = pprint.pprint(res['quoteResponse']['result'])
-#     return f"Symbol: {query_symbol}\nName: {name}\n52 Week Range: {yearrange}\nMarket Cap: {cap}\nCurrency: {currencytype}\nAsk: {ask}\nBid: {bid}\nSource: {source}"
-
-
-# if __name__ == "__main__":
-#     app.run(host="0.0.0.0", port=2224)  # runs the application
